@@ -25,7 +25,7 @@ INC_DIRS := $(shell find $(SRC_DIR) -type d)
 
 # Flags
 CFLAGS = -std=c99 -pedantic -O3 -Wall -Werror -march=native -flto -pipe -fstack-protector-strong --param=ssp-buffer-size=4
-CFLAGS_NOERR = -std=c99 -O3 -Wall -Wunused-function -Wunneeded-internal-declaration -Wimplicit-function-declaration -march=native -flto -pipe -fstack-protector-strong --param=ssp-buffer-size=4
+CFLAGS_NOW = -std=c99 -O3 -w -march=native -flto -pipe -fstack-protector-strong --param=ssp-buffer-size=4
 CXXFLAGS = -march=native -O3 -flto -pipe -fstack-protector-strong --param=ssp-buffer-size=4
 LDFLAGS = -Wl -O3 -flto
 
@@ -64,7 +64,7 @@ $(SRC_DIR)/parser/grammar.c: $(SRC_DIR)/parser/grammar.y
 # parser object file
 $(BUILD_DIR)/src/parser/grammar.c.o: $(SRC_DIR)/parser/grammar.c
 	mkdir -p $(BUILD_DIR)/src/parser
-	$(CC) $(CPPFLAGS) $(CFLAGS_NOERR) $(DEBUG_FLAGS) -c $< -o $@
+	$(CC) $(CPPFLAGS) $(CFLAGS_NOW) $(DEBUG_FLAGS) -c $< -o $@
 
 # tokenizer c file and header
 $(SRC_DIR)/lexer/tokens.c: $(SRC_DIR)/lexer/tokens.l $(SRC_DIR)/parser/grammar.c
@@ -73,13 +73,13 @@ $(SRC_DIR)/lexer/tokens.c: $(SRC_DIR)/lexer/tokens.l $(SRC_DIR)/parser/grammar.c
 # tokenizer object file
 $(BUILD_DIR)/src/lexer/tokens.c.o: $(SRC_DIR)/lexer/tokens.c
 	mkdir -p $(BUILD_DIR)/src/lexer
-	$(CC) $(CPPFLAGS) $(CFLAGS_NOERR) $(DEBUG_FLAGS) -c $< -o $(BUILD_DIR)/src/lexer/tokens.c.o
+	$(CC) $(CPPFLAGS) $(CFLAGS_NOW) $(DEBUG_FLAGS) -c $< -o $(BUILD_DIR)/src/lexer/tokens.c.o
 
 
 .PHONY: clean all test run install uninstall gen
 
 clean:
-	$(RM) -r $(BUILD_DIR)
+	$(RM) -r $(BUILD_DIR) src/lexer/tokens.c src/lexer/tokens.h src/parser/grammar.c src/parser/grammar.h
 
 all:	$(BUILD_DIR)/$(TEST_EXEC) $(BUILD_DIR)/$(TARGET_EXEC)
 
