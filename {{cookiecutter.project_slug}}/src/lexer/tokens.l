@@ -1,7 +1,7 @@
 %{
 
 #include <stdio.h>
-#include "grammar.h"
+#include "parser.h"
 
 int c;
 extern int yylval;

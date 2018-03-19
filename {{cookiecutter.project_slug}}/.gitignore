@@ -2,5 +2,5 @@
 build
 src/lexer/tokens.c
 src/lexer/tokens.h
-src/parser/grammar.c
-src/parser/grammar.h
+src/parser/parser.c
+src/parser/parser.h

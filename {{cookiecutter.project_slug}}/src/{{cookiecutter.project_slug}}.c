@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include "tokens.h"
-#include "grammar.h"
+#include "parser.h"
 
 int yyparse(void);
 int main(int argc, char **argv) {
