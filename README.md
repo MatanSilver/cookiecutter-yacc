@@ -1,7 +1,8 @@
-cookiecutter cproj
+cookiecutter yacc
 ==================
 
-A short description of the project
+This is a template for projects that use lex and yacc to parse text.
+The example implements a calculator and was adapted from [IBM's tutorial](https://www.ibm.com/support/knowledgecenter/en/ssw_aix_61/com.ibm.aix.genprogc/ie_prog_4lex_yacc.htm)
 
 Requirements
 ------------
