@@ -35,7 +35,7 @@ INC_FLAGS := $(addprefix -I,$(INC_DIRS))
 CPPFLAGS ?= $(INC_FLAGS) -MMD -MP
 
 # main target
-$(BUILD_DIR)/$(TARGET_EXEC): $(MAIN_OBJS) $(BUILD_DIR)/src/lexer/tokens.c.o $(BUILD_DIR)/src/parser/grammar.c.o
+$(BUILD_DIR)/$(TARGET_EXEC): $(MAIN_OBJS) $(BUILD_DIR)/src/lexer/tokens.c.o $(BUILD_DIR)/src/parser/parser.c.o
 	$(CC) $(MAIN_OBJS) -o $@ $(LDFLAGS)
 
 # test target
@@ -58,16 +58,16 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) $(DEBUG_FLAGS) -c $< -o $@
 
 #parser c file and header
-$(SRC_DIR)/parser/grammar.c: $(SRC_DIR)/parser/grammar.y
+$(SRC_DIR)/parser/parser.c: $(SRC_DIR)/parser/parser.y
 	$(YACC) -d $< -o $@
 
 # parser object file
-$(BUILD_DIR)/src/parser/grammar.c.o: $(SRC_DIR)/parser/grammar.c
+$(BUILD_DIR)/src/parser/parser.c.o: $(SRC_DIR)/parser/parser.c
 	mkdir -p $(BUILD_DIR)/src/parser
 	$(CC) $(CPPFLAGS) $(CFLAGS_NOW) $(DEBUG_FLAGS) -c $< -o $@
 
 # tokenizer c file and header
-$(SRC_DIR)/lexer/tokens.c: $(SRC_DIR)/lexer/tokens.l $(SRC_DIR)/parser/grammar.c
+$(SRC_DIR)/lexer/tokens.c: $(SRC_DIR)/lexer/tokens.l $(SRC_DIR)/parser/parser.c
 	$(LEX) -o $@ --header-file=$(SRC_DIR)/lexer/tokens.h $<
 
 # tokenizer object file
@@ -79,11 +79,11 @@ $(BUILD_DIR)/src/lexer/tokens.c.o: $(SRC_DIR)/lexer/tokens.c
 .PHONY: clean all test run install uninstall gen
 
 clean:
-	$(RM) -r $(BUILD_DIR) src/lexer/tokens.c src/lexer/tokens.h src/parser/grammar.c src/parser/grammar.h
+	$(RM) -r $(BUILD_DIR) src/lexer/tokens.c src/lexer/tokens.h src/parser/parser.c src/parser/parser.h
 
 all:	$(BUILD_DIR)/$(TEST_EXEC) $(BUILD_DIR)/$(TARGET_EXEC)
 
-gen: src/parser/grammar.c src/lexer/tokens.c
+gen: src/parser/parser.c src/lexer/tokens.c
 
 run: $(BUILD_DIR)/$(TARGET_EXEC)
 	$(BUILD_DIR)/$(TARGET_EXEC)
